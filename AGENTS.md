@@ -13,13 +13,6 @@
 - The user curates sources, asks questions, reviews results, and steers interpretation.
 - The LLM maintains the wiki: summarizing sources, creating pages, updating links, surfacing contradictions, maintaining the index, and appending the log.
 
-## No Git or Slack
-
-- Do not use git in this project.
-- Do not inspect git history, run git status, create commits, or rely on repository metadata.
-- Do not use Slack for task reporting in this project.
-- Do not search Slack channels, read Slack context, draft Slack messages, or post Slack updates.
-
 ## Encoding Safety
 
 - Read and write files with explicit UTF-8.
