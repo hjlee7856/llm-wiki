@@ -1,1 +1,10 @@
 .obsidian
+
+# MemPalace per-project files (issue #185)
+.mempalace/
+entities.json
+
+# Next.js GUI
+web/node_modules/
+web/.next/
+web/.env.local

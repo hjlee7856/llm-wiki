@@ -8,10 +8,13 @@
 
 ## Project Purpose
 
+- Repository layout: the Obsidian vault lives under `obsidian/`, and the GUI project lives under `web/`.
+- Unless a section explicitly says otherwise, wiki paths below are relative to the vault root `obsidian/`.
 - This vault is not a wiki about LLMs.
 - This vault is an LLM-maintained knowledge base.
 - The user curates sources, asks questions, reviews results, and steers interpretation.
 - The LLM maintains the wiki: summarizing sources, creating pages, updating links, surfacing contradictions, maintaining the index, and appending the log.
+- Treat the wiki as a compiled knowledge layer between raw sources and repeated questions, not as a chat transcript store.
 
 ## Encoding Safety
 
@@ -80,6 +83,13 @@ When the user asks a question against the wiki:
 5. If the answer is reusable, ask or infer whether to save it in `wiki/queries`.
 6. If saved, update `wiki/index.md` and append to `wiki/log.md`.
 
+Reusable query outputs should be rewritten as durable wiki notes, not dumped as conversation transcripts.
+
+Query response format:
+
+- Do not append boilerplate sections about risks, verification status, or change status when only answering a wiki question.
+- Include those details only when the user explicitly asks for them or when files were actually modified.
+
 ### Lint
 
 When asked to lint or health-check the wiki:
@@ -90,7 +100,19 @@ When asked to lint or health-check the wiki:
 4. Look for contradictions across pages.
 5. Look for stale claims superseded by newer sources.
 6. Suggest missing topic or entity pages.
-7. Append a lint entry to `wiki/log.md` if files are changed.
+7. Suggest high-value query answers that should be promoted into reusable wiki pages.
+8. Append a lint entry to `wiki/log.md` if files are changed.
+
+### Search Escalation
+
+When the wiki grows:
+
+1. Prefer `wiki/index.md`, linked pages, and concise source notes first.
+2. Add extra search or graph-style retrieval only when the existing wiki structure is no longer sufficient.
+3. Treat search tooling as a complement to the wiki, not a replacement for maintaining the wiki.
+4. If MemPalace MCP is available, use it to recover past work context, session history, and provisional decisions.
+5. Do not treat MemPalace results as source truth; verify durable claims against `wiki` pages or `raw` sources before answering as fact or updating files.
+6. Keep reusable conclusions in the wiki. MemPalace is for recall, not for replacing `wiki/index.md`, source notes, or logs.
 
 ### Prune
 

@@ -1,0 +1,16 @@
+wing: my_llm_wiki
+palace_path: .mempalace/palace
+rooms:
+- name: raw
+  description: Files from raw/
+  keywords:
+  - raw
+  - raw
+- name: documentation
+  description: Files from wiki/
+  keywords:
+  - documentation
+  - wiki
+- name: general
+  description: Files that don't fit other rooms
+  keywords: []
