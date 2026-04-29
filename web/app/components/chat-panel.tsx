@@ -49,6 +49,8 @@ export default function ChatPanel({
 }: ChatPanelProps) {
   const threadRef = useRef<HTMLDivElement | null>(null);
   const [copiedMessageKey, setCopiedMessageKey] = useState<string | null>(null);
+  const [copyError, setCopyError] = useState<string | null>(null);
+  const canSubmit = prompt.trim().length > 0 && !running;
 
   useEffect(() => {
     const thread = threadRef.current;
@@ -60,13 +62,18 @@ export default function ChatPanel({
   }, [messages, showActivity, activityLog]);
 
   async function copyMessage(messageKey: string, text: string) {
-    await navigator.clipboard.writeText(text);
-    setCopiedMessageKey(messageKey);
-    window.setTimeout(() => {
-      setCopiedMessageKey((current) =>
-        current === messageKey ? null : current,
-      );
-    }, 1500);
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopyError(null);
+      setCopiedMessageKey(messageKey);
+      window.setTimeout(() => {
+        setCopiedMessageKey((current) =>
+          current === messageKey ? null : current,
+        );
+      }, 1500);
+    } catch {
+      setCopyError("복사에 실패했습니다. 브라우저 권한을 확인해 주세요.");
+    }
   }
 
   return (
@@ -136,6 +143,7 @@ export default function ChatPanel({
 
       <div className="compose-shell">
         {error ? <Alert type="error" message={error} showIcon /> : null}
+        {copyError ? <Alert type="warning" message={copyError} showIcon /> : null}
         <TextArea
           value={prompt}
           onChange={(event) => onPromptChange(event.target.value)}
@@ -143,7 +151,7 @@ export default function ChatPanel({
           placeholder="질문 또는 변경 요청을 입력하세요."
         />
         <Space wrap size={[10, 10]} className="toolbar">
-          <Button type="primary" loading={running} onClick={onRun}>
+          <Button type="primary" loading={running} disabled={!canSubmit} onClick={onRun}>
             {running ? "생각 중..." : "전송하기"}
           </Button>
           {running ? (

@@ -27,6 +27,19 @@ type StreamEvent =
   | { type: "error"; message: string }
   | { type: "done"; code: number | null };
 
+function parseStoredSessions(raw: string | null) {
+  if (!raw) {
+    return [] as StoredSession[];
+  }
+
+  try {
+    const parsed = JSON.parse(raw) as StoredSession[];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
 export default function HomePage() {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [selectedSessionId, setSelectedSessionId] = useState<string | null>(
@@ -97,9 +110,7 @@ export default function HomePage() {
       typeof window !== "undefined"
         ? window.localStorage.getItem(sessionsKey)
         : null;
-    const savedSessions = savedSessionsRaw
-      ? (JSON.parse(savedSessionsRaw) as StoredSession[])
-      : [];
+    const savedSessions = parseStoredSessions(savedSessionsRaw);
     setSessions(savedSessions);
 
     const savedSessionId =
@@ -165,6 +176,11 @@ export default function HomePage() {
   }, [messages, sessionId]);
 
   async function runCodex() {
+    const trimmedPrompt = prompt.trim();
+    if (!trimmedPrompt || running) {
+      return;
+    }
+
     abortRef.current?.abort();
     const controller = new AbortController();
     abortRef.current = controller;
@@ -173,7 +189,7 @@ export default function HomePage() {
     setWaitingForAnswer(true);
     setError(null);
     setActivityLog("");
-    appendMessage("user", prompt);
+    appendMessage("user", trimmedPrompt);
     setPrompt("");
 
     try {
@@ -184,7 +200,7 @@ export default function HomePage() {
         },
         body: JSON.stringify({
           mode: "ask",
-          prompt,
+          prompt: trimmedPrompt,
           activePath: null,
           sessionId,
         }),

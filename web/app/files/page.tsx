@@ -32,6 +32,8 @@ export default function FilesPage() {
   const [activeFile, setActiveFile] = useState<FileState | null>(null);
   const [error, setError] = useState<string | null>(null);
   const uploadInputRef = useRef<HTMLInputElement | null>(null);
+  const actionsDisabled =
+    loadingTree || loadingFile || savingFile || deletingFile;
 
   async function refreshTree() {
     setLoadingTree(true);
@@ -315,9 +317,13 @@ export default function FilesPage() {
           rootCount={tree.length}
           activePath={activeFile?.path ?? null}
           onSelect={handleTreeSelect}
-          onCreateFile={() => void createFile()}
-          onCreateDirectory={() => void createDirectory()}
-          onUploadFile={() => uploadInputRef.current?.click()}
+          onCreateFile={actionsDisabled ? undefined : () => void createFile()}
+          onCreateDirectory={
+            actionsDisabled ? undefined : () => void createDirectory()
+          }
+          onUploadFile={
+            actionsDisabled ? undefined : () => uploadInputRef.current?.click()
+          }
         />
         <FileViewerPanel
           loading={loadingFile}
