@@ -47,7 +47,7 @@ export default function SessionPanel({
   onStartFresh,
 }: SessionPanelProps) {
   return (
-    <Card className="glass-card session-panel-card" bordered={false}>
+    <Card className="glass-card session-panel-card" variant="borderless">
       <Flex justify="space-between" align="center" gap={12}>
         <Title level={4} style={{ margin: 0 }}>
           History

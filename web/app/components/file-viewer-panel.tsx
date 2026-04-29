@@ -36,7 +36,7 @@ export default function FileViewerPanel({
   const charCount = draft.length;
 
   return (
-    <Card className="glass-card file-viewer-card" bordered={false}>
+    <Card className="glass-card file-viewer-card" variant="borderless">
       <div className="viewer-header">
         <Flex justify="space-between" align="center" gap={12}>
           <div>

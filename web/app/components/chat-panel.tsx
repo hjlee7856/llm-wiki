@@ -77,7 +77,7 @@ export default function ChatPanel({
   }
 
   return (
-    <Card className="glass-card chat-card" bordered={false}>
+    <Card className="glass-card chat-card" variant="borderless">
       <Flex justify="space-between" align="center" gap={12}>
         <Title level={4} style={{ margin: 0 }}>
           Chat

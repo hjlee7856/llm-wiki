@@ -10,7 +10,7 @@ type HeroSectionProps = {
 
 export default function HeroSection({ sessionId }: HeroSectionProps) {
   return (
-    <Card className="glass-card hero-card" bordered={false}>
+    <Card className="glass-card hero-card" variant="borderless">
       <div className="hero-split">
         <div>
           <Space size={[8, 8]} wrap>
@@ -26,7 +26,7 @@ export default function HeroSection({ sessionId }: HeroSectionProps) {
           </Paragraph>
         </div>
 
-        <Card className="context-card" bordered={false}>
+        <Card className="context-card" variant="borderless">
           <Flex justify="space-between" align="center" gap={12}>
             <Title level={4} style={{ margin: 0 }}>
               Context

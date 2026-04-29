@@ -27,7 +27,7 @@ export default function WikiSidebar({
   onUploadFile,
 }: WikiSidebarProps) {
   return (
-    <Card className="glass-card sidebar-card" bordered={false}>
+    <Card className="glass-card sidebar-card" variant="borderless">
       <div className="sidebar-header">
         <Flex justify="space-between" align="center" gap={12}>
           <div>
